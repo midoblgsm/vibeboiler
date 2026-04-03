@@ -9,6 +9,7 @@ on:
     branches: [main]
     paths:
       - "functions/**"
+  workflow_dispatch:
 
 jobs:
   deploy-functions:
@@ -36,7 +37,7 @@ jobs:
           credentials_json: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
 
       - name: Set Cloud Functions secrets
-        if: github.event_name == 'push'
+        if: github.event_name != 'pull_request'
         run: |
           for SECRET_NAME in NEON_DATABASE_URL; do
             VALUE_VAR="SECRET_${SECRET_NAME}"
@@ -47,5 +48,5 @@ jobs:
           SECRET_NEON_DATABASE_URL: ${{ secrets.NEON_DATABASE_URL }}
 
       - name: Deploy to Firebase Functions
-        if: github.event_name == 'push'
+        if: github.event_name != 'pull_request'
         run: npx firebase-tools deploy --only functions --project ${{ secrets.FIREBASE_PROJECT_ID }}
