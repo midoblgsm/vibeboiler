@@ -9,10 +9,13 @@ import {
 } from "firebase/auth";
 import { auth } from "../lib/firebase";
 
+type UserRole = "user" | "admin";
+
 interface AuthState {
   user: User | null;
   loading: boolean;
   error: string | null;
+  role: UserRole;
 }
 
 export function useAuth() {
@@ -20,11 +23,18 @@ export function useAuth() {
     user: null,
     loading: true,
     error: null,
+    role: "user",
   });
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      setState({ user, loading: false, error: null });
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        const tokenResult = await user.getIdTokenResult();
+        const role: UserRole = tokenResult.claims.admin === true ? "admin" : "user";
+        setState({ user, loading: false, error: null, role });
+      } else {
+        setState({ user: null, loading: false, error: null, role: "user" });
+      }
     });
     return unsubscribe;
   }, []);
@@ -73,6 +83,8 @@ export function useAuth() {
     user: state.user,
     loading: state.loading,
     error: state.error,
+    role: state.role,
+    isAdmin: state.role === "admin",
     login,
     signup,
     forgotPassword,

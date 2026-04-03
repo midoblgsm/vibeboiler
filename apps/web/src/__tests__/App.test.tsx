@@ -62,4 +62,13 @@ describe("App", () => {
     );
     expect(screen.getByRole("heading", { name: "Log In" })).toBeInTheDocument();
   });
+
+  it("redirects unauthenticated users from admin to login", () => {
+    render(
+      <MemoryRouter initialEntries={["/admin"]}>
+        <App />
+      </MemoryRouter>,
+    );
+    expect(screen.getByRole("heading", { name: "Log In" })).toBeInTheDocument();
+  });
 });

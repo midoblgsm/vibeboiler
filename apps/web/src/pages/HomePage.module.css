@@ -15,6 +15,18 @@
   margin-bottom: var(--space-lg);
 }
 
+.adminLink {
+  display: inline-block;
+  margin-bottom: var(--space-md);
+  color: var(--color-primary);
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.adminLink:hover {
+  text-decoration: underline;
+}
+
 .logoutButton {
   padding: 0.5rem 1rem;
   background: none;

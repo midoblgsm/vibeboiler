@@ -1,0 +1,30 @@
+name: Set Admin Role
+
+on:
+  workflow_dispatch:
+    inputs:
+      email:
+        description: "Email of the user to promote to admin"
+        required: true
+        type: string
+
+jobs:
+  set-admin:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: Set admin role
+        run: npx tsx functions/src/scripts/set-admin.ts "${{ github.event.inputs.email }}"
+        env:
+          FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+          NEON_DATABASE_URL: ${{ secrets.NEON_DATABASE_URL }}
