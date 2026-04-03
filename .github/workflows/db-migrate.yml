@@ -1,0 +1,26 @@
+name: Database Migration
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "functions/drizzle/**"
+      - "functions/src/db/schema.ts"
+
+jobs:
+  migrate:
+    name: Run Neon Postgres Migrations
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+
+      - name: Run Migrations
+        run: pnpm --filter @vibeboiler/functions db:migrate
+        env:
+          NEON_DATABASE_URL: ${{ secrets.NEON_DATABASE_URL }}

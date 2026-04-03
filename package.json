@@ -1,0 +1,36 @@
+{
+  "name": "vibeboiler",
+  "version": "0.1.0",
+  "private": true,
+  "description": "React Native + Firebase + Vite full-stack boilerplate",
+  "scripts": {
+    "dev:web": "pnpm --filter @vibeboiler/web dev",
+    "dev:functions": "pnpm --filter @vibeboiler/functions dev",
+    "build:web": "pnpm --filter @vibeboiler/web build",
+    "build:functions": "pnpm --filter @vibeboiler/functions build",
+    "build": "pnpm -r build",
+    "lint": "pnpm -r lint",
+    "typecheck": "pnpm -r typecheck",
+    "test": "pnpm -r test",
+    "test:web": "pnpm --filter @vibeboiler/web test",
+    "test:mobile": "pnpm --filter @vibeboiler/mobile test",
+    "test:functions": "pnpm --filter @vibeboiler/functions test",
+    "test:e2e": "pnpm --filter @vibeboiler/web test:e2e",
+    "db:generate": "pnpm --filter @vibeboiler/functions db:generate",
+    "db:migrate": "pnpm --filter @vibeboiler/functions db:migrate",
+    "firebase:emulators": "firebase emulators:start",
+    "clean": "pnpm -r exec rm -rf dist node_modules .turbo"
+  },
+  "engines": {
+    "node": ">=20.0.0",
+    "pnpm": ">=9.0.0"
+  },
+  "packageManager": "pnpm@9.15.4",
+  "devDependencies": {
+    "typescript": "^5.7.0",
+    "eslint": "^9.17.0",
+    "@typescript-eslint/eslint-plugin": "^8.18.0",
+    "@typescript-eslint/parser": "^8.18.0",
+    "prettier": "^3.4.0"
+  }
+}
