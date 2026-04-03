@@ -34,7 +34,7 @@ export function LoginPage() {
   return (
     <div style={{ maxWidth: 400, margin: "2rem auto", padding: "0 1rem" }}>
       <h1>Log In</h1>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} noValidate>
         {error && <p style={{ color: "red" }}>{error}</p>}
         <div style={{ marginBottom: "1rem" }}>
           <label htmlFor="email">Email</label>

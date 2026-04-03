@@ -13,7 +13,7 @@ test.describe("Authentication Flow", () => {
     await page.goto("/signup");
     await expect(page.getByRole("heading", { name: "Sign Up" })).toBeVisible();
     await expect(page.getByLabel("Email")).toBeVisible();
-    await expect(page.getByLabel("Password")).toBeVisible();
+    await expect(page.getByLabel("Password", { exact: true })).toBeVisible();
     await expect(page.getByLabel("Confirm Password")).toBeVisible();
   });
 

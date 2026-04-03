@@ -42,7 +42,7 @@ export function ForgotPasswordPage() {
           <Link to="/login">Back to login</Link>
         </div>
       ) : (
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} noValidate>
           {error && <p style={{ color: "red" }}>{error}</p>}
           <div style={{ marginBottom: "1rem" }}>
             <label htmlFor="email">Email</label>
