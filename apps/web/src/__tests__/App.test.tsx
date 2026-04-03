@@ -53,4 +53,13 @@ describe("App", () => {
     );
     expect(screen.getByText("Reset Password")).toBeInTheDocument();
   });
+
+  it("redirects unauthenticated users from home to login", () => {
+    render(
+      <MemoryRouter initialEntries={["/"]}>
+        <App />
+      </MemoryRouter>,
+    );
+    expect(screen.getByRole("heading", { name: "Log In" })).toBeInTheDocument();
+  });
 });

@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
 import { isValidEmail, validatePassword } from "@vibeboiler/shared";
+import { AuthLayout } from "../components/AuthLayout";
+import styles from "../components/AuthLayout.module.css";
 
 export function SignupPage() {
   const [email, setEmail] = useState("");
@@ -44,50 +46,49 @@ export function SignupPage() {
   };
 
   return (
-    <div style={{ maxWidth: 400, margin: "2rem auto", padding: "0 1rem" }}>
-      <h1>Sign Up</h1>
-      <form onSubmit={handleSubmit} noValidate>
-        {error && <p style={{ color: "red" }}>{error}</p>}
-        <div style={{ marginBottom: "1rem" }}>
-          <label htmlFor="email">Email</label>
+    <AuthLayout title="Sign Up" subtitle="Create your VibeBoiler account">
+      <form onSubmit={handleSubmit} noValidate className={styles.form}>
+        {error && <p className={styles.error}>{error}</p>}
+        <div className={styles.field}>
+          <label htmlFor="email" className={styles.label}>Email</label>
           <input
             id="email"
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
-            style={{ display: "block", width: "100%", padding: "0.5rem" }}
+            className={styles.input}
           />
         </div>
-        <div style={{ marginBottom: "1rem" }}>
-          <label htmlFor="password">Password</label>
+        <div className={styles.field}>
+          <label htmlFor="password" className={styles.label}>Password</label>
           <input
             id="password"
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
-            style={{ display: "block", width: "100%", padding: "0.5rem" }}
+            className={styles.input}
           />
         </div>
-        <div style={{ marginBottom: "1rem" }}>
-          <label htmlFor="confirmPassword">Confirm Password</label>
+        <div className={styles.field}>
+          <label htmlFor="confirmPassword" className={styles.label}>Confirm Password</label>
           <input
             id="confirmPassword"
             type="password"
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
             required
-            style={{ display: "block", width: "100%", padding: "0.5rem" }}
+            className={styles.input}
           />
         </div>
-        <button type="submit" disabled={loading} style={{ padding: "0.5rem 1rem" }}>
+        <button type="submit" disabled={loading} className={styles.button}>
           {loading ? "Creating account..." : "Sign Up"}
         </button>
       </form>
-      <p style={{ marginTop: "1rem" }}>
+      <div className={styles.footer}>
         Already have an account? <Link to="/login">Log in</Link>
-      </p>
-    </div>
+      </div>
+    </AuthLayout>
   );
 }

@@ -1,0 +1,33 @@
+.container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: var(--space-xl) var(--space-md);
+}
+
+.heading {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: var(--space-sm);
+}
+
+.email {
+  color: var(--color-text-secondary);
+  margin-bottom: var(--space-lg);
+}
+
+.logoutButton {
+  padding: 0.5rem 1rem;
+  background: none;
+  color: var(--color-error);
+  border: 1px solid var(--color-error);
+  border-radius: var(--radius-md);
+  font-size: 0.875rem;
+  font-family: inherit;
+  cursor: pointer;
+  transition: background-color 0.15s, color 0.15s;
+}
+
+.logoutButton:hover {
+  background: var(--color-error);
+  color: #fff;
+}
