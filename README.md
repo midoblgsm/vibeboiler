@@ -235,7 +235,7 @@ git push -u origin main
 | `EXPO_TOKEN` | Expo access token (from expo.dev > Account Settings > Access Tokens) |
 | `APPLE_ID` | Your Apple ID email |
 | `APPLE_APP_SPECIFIC_PASSWORD` | App-specific password for App Store submissions |
-| `GOOGLE_PLAY_SERVICE_ACCOUNT_KEY` | Google Play service account JSON key |
+| `GOOGLE_PLAY_SERVICE_ACCOUNT_KEY` | Google Play service account JSON key (can be the same as `FIREBASE_SERVICE_ACCOUNT` if the Firebase service account has Google Play Console permissions) |
 
 ## Local Development
 
