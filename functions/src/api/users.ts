@@ -17,6 +17,7 @@ interface UserProfile {
   displayName: string | null;
   bio: string | null;
   avatarUrl: string | null;
+  role: string;
 }
 
 const updateProfileSchema = z.object({
@@ -51,6 +52,7 @@ export const getProfile = onRequest(async (req, res) => {
     displayName: user.displayName,
     bio: user.bio,
     avatarUrl: user.avatarUrl,
+    role: user.role,
   };
 
   const response: ApiResponse<UserProfile> = { success: true, data: profile };
@@ -99,6 +101,7 @@ export const updateProfile = onRequest(async (req, res) => {
     displayName: updated.displayName,
     bio: updated.bio,
     avatarUrl: updated.avatarUrl,
+    role: updated.role,
   };
 
   const response: ApiResponse<UserProfile> = { success: true, data: profile };

@@ -26,3 +26,19 @@ export async function verifyAuth(
     return null;
   }
 }
+
+export async function verifyAdmin(
+  req: AuthenticatedRequest,
+  res: express.Response,
+): Promise<admin.auth.DecodedIdToken | null> {
+  const decoded = await verifyAuth(req, res);
+  if (!decoded) return null;
+
+  if (decoded.admin !== true) {
+    res.status(403).json({
+      error: { code: "FORBIDDEN", message: "Admin access required" },
+    });
+    return null;
+  }
+  return decoded;
+}

@@ -25,6 +25,7 @@ vi.mock("../src/db", () => ({
               displayName: "Test User",
               bio: null,
               avatarUrl: null,
+              role: "user",
               createdAt: new Date(),
               updatedAt: new Date(),
             },

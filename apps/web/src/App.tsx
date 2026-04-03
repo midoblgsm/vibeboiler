@@ -3,8 +3,10 @@ import { LoginPage } from "./pages/LoginPage";
 import { SignupPage } from "./pages/SignupPage";
 import { ForgotPasswordPage } from "./pages/ForgotPasswordPage";
 import { HomePage } from "./pages/HomePage";
+import { AdminPage } from "./pages/AdminPage";
 import { AuthGuard } from "./components/AuthGuard";
 import { GuestGuard } from "./components/GuestGuard";
+import { AdminGuard } from "./components/AdminGuard";
 
 export function App() {
   return (
@@ -18,6 +20,14 @@ export function App() {
           <AuthGuard>
             <HomePage />
           </AuthGuard>
+        }
+      />
+      <Route
+        path="/admin"
+        element={
+          <AdminGuard>
+            <AdminPage />
+          </AdminGuard>
         }
       />
       <Route path="*" element={<Navigate to="/" replace />} />
