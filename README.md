@@ -201,12 +201,17 @@ eas init
 3. Set up automated publishing:
    - Go to Setup > API access
    - Link to a Google Cloud project
-   - Create a Service Account:
+   - Create a Service Account (or reuse the Firebase service account):
      - Go to Google Cloud Console > IAM & Admin > Service Accounts
-     - Create a new service account
+     - Create a new service account (or use the existing Firebase service account email, e.g., `firebase-adminsdk-xxxxx@your-project.iam.gserviceaccount.com`)
      - Grant role: "Service Account User"
      - Create a JSON key and download it
-   - Back in Play Console: Grant the service account "Release manager" permission
+   - **Invite the service account to Play Console** (required):
+     - Go to Play Console > Users and permissions > Invite new users
+     - Enter the service account email address (e.g., `firebase-adminsdk-xxxxx@your-project.iam.gserviceaccount.com`)
+     - Under "App permissions", select your app
+     - Grant the following permissions: **Releases** (manage production/testing releases), **Store presence** (edit store listing)
+     - Click "Invite user" and confirm
 4. Create an initial release manually:
    - Build locally: `cd apps/mobile && eas build --platform android --profile production`
    - Upload the AAB to the "Internal testing" track
@@ -235,7 +240,7 @@ git push -u origin main
 | `EXPO_TOKEN` | Expo access token (from expo.dev > Account Settings > Access Tokens) |
 | `APPLE_ID` | Your Apple ID email |
 | `APPLE_APP_SPECIFIC_PASSWORD` | App-specific password for App Store submissions |
-| `GOOGLE_PLAY_SERVICE_ACCOUNT_KEY` | Google Play service account JSON key |
+| `GOOGLE_PLAY_SERVICE_ACCOUNT_KEY` | Google Play service account JSON key (can be the same as `FIREBASE_SERVICE_ACCOUNT` if the Firebase service account has Google Play Console permissions) |
 
 ## Local Development
 
