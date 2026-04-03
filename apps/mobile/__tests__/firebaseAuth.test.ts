@@ -18,7 +18,7 @@ jest.mock("expo-secure-store", () => ({
 
 // Mock fetch
 const mockFetch = jest.fn();
-global.fetch = mockFetch;
+(globalThis as Record<string, unknown>).fetch = mockFetch;
 
 beforeEach(() => {
   mockFetch.mockClear();
