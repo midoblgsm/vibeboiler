@@ -1,0 +1,30 @@
+appId: com.yourcompany.vibeboiler
+name: Login Flow
+---
+# Login screen should be visible
+- assertVisible: "Welcome Back"
+- assertVisible: "Email"
+- assertVisible: "Password"
+
+# Test empty form submission
+- tapOn: "Log In"
+- assertVisible: "Error"
+
+# Fill in credentials and login
+- tapOn: "Email"
+- inputText: "test@example.com"
+- tapOn: "Password"
+- inputText: "TestPassword1"
+- tapOn: "Log In"
+
+# Navigate to signup
+- tapOn: "Don't have an account? Sign up"
+- assertVisible: "Create Account"
+
+# Navigate back to login
+- tapOn: "Already have an account? Log in"
+- assertVisible: "Welcome Back"
+
+# Navigate to forgot password
+- tapOn: "Forgot password?"
+- assertVisible: "Reset Password"
