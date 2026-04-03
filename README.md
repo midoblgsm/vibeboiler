@@ -166,6 +166,8 @@ eas login
 cd apps/mobile
 eas init
 ```
+   - This will create your project on expo.dev and set `extra.eas.projectId` in `app.json`
+   - Copy the project ID — you'll need it as a GitHub secret (`EAS_PROJECT_ID`)
 4. Update `apps/mobile/app.json`:
    - Set `ios.bundleIdentifier` to your actual bundle ID (e.g., `com.yourcompany.vibeboiler`)
    - Set `android.package` to your actual package name
@@ -173,6 +175,16 @@ eas init
    - Set `submit.production.ios.appleId` to your Apple ID
    - Set `submit.production.ios.ascAppId` to your App Store Connect App ID
    - Set `submit.production.ios.appleTeamId` to your Apple Team ID
+6. **Run the first builds locally** (required before CI/CD can submit):
+```bash
+cd apps/mobile
+# First iOS build — sets up credentials and registers the app with Apple
+eas build --platform ios --profile production
+# First Android build — generates the AAB for initial Play Store upload
+eas build --platform android --profile production
+```
+   - EAS will walk you through credentials setup (signing certificates, keystores, etc.)
+   - These first builds must complete before CI/CD workflows can submit to the stores
 
 ### 6. Apple Developer Portal Setup (iOS)
 
@@ -213,8 +225,8 @@ eas init
      - Grant the following permissions: **Releases** (manage production/testing releases), **Store presence** (edit store listing)
      - Click "Invite user" and confirm
 4. Create an initial release manually:
-   - Build locally: `cd apps/mobile && eas build --platform android --profile production`
-   - Upload the AAB to the "Internal testing" track
+   - Use the AAB from the first local Android build (see [Expo / EAS Setup](#5-expo--eas-setup) step 6)
+   - Upload the AAB to the "Internal testing" track in the Play Console
    - This first upload must be manual; subsequent uploads are automated via CI/CD
 
 ### 8. GitHub Repository & Secrets Setup
@@ -238,6 +250,7 @@ git push -u origin main
 | `FIREBASE_APP_ID` | Firebase Web App ID |
 | `NEON_DATABASE_URL` | Neon Postgres connection string |
 | `EXPO_TOKEN` | Expo access token (from expo.dev > Account Settings > Access Tokens) |
+| `EAS_PROJECT_ID` | Expo project ID (from `eas init` or expo.dev project settings) |
 | `APPLE_ID` | Your Apple ID email |
 | `APPLE_APP_SPECIFIC_PASSWORD` | App-specific password for App Store submissions |
 | `GOOGLE_PLAY_SERVICE_ACCOUNT_KEY` | Google Play service account JSON key (can be the same as `FIREBASE_SERVICE_ACCOUNT` if the Firebase service account has Google Play Console permissions) |
