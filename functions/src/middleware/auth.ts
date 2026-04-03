@@ -10,6 +10,11 @@ export async function verifyAuth(
   req: AuthenticatedRequest,
   res: express.Response,
 ): Promise<admin.auth.DecodedIdToken | null> {
+  if (req.method === "OPTIONS") {
+    res.status(204).send();
+    return null;
+  }
+
   const authHeader = req.headers.authorization;
   if (!authHeader?.startsWith("Bearer ")) {
     res.status(401).json({ error: { code: "UNAUTHORIZED", message: "Missing auth token" } });
