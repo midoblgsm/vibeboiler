@@ -11,37 +11,41 @@ on:
       - "functions/**"
 
 jobs:
-  deploy:
-    name: Deploy Firebase Functions
+  deploy-functions:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
       - uses: actions/checkout@v4
+
       - uses: pnpm/action-setup@v4
+
       - uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: pnpm
+
       - run: pnpm install --frozen-lockfile
 
       - name: Build Functions
         run: pnpm --filter @vibeboiler/functions build
 
-      - name: Install Firebase CLI
-        run: npm install -g firebase-tools
-
       - name: Authenticate to Google Cloud
-        run: |
-          echo '${{ secrets.FIREBASE_SERVICE_ACCOUNT }}' > "$RUNNER_TEMP/sa-key.json"
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
 
-      - name: Set Functions Config
+      - name: Set Cloud Functions secrets
         if: github.event_name == 'push'
         run: |
-          firebase functions:secrets:set NEON_DATABASE_URL --data "${{ secrets.NEON_DATABASE_URL }}" || true
+          for SECRET_NAME in NEON_DATABASE_URL; do
+            VALUE_VAR="SECRET_${SECRET_NAME}"
+            echo -n "${!VALUE_VAR}" | gcloud secrets create "$SECRET_NAME" --data-file=- --project=${{ secrets.FIREBASE_PROJECT_ID }} 2>/dev/null || \
+            echo -n "${!VALUE_VAR}" | gcloud secrets versions add "$SECRET_NAME" --data-file=- --project=${{ secrets.FIREBASE_PROJECT_ID }}
+          done
         env:
-          GOOGLE_APPLICATION_CREDENTIALS: ${{ runner.temp }}/sa-key.json
+          SECRET_NEON_DATABASE_URL: ${{ secrets.NEON_DATABASE_URL }}
 
-      - name: Deploy Functions
+      - name: Deploy to Firebase Functions
         if: github.event_name == 'push'
-        run: firebase deploy --only functions --project ${{ secrets.FIREBASE_PROJECT_ID }}
-        env:
-          GOOGLE_APPLICATION_CREDENTIALS: ${{ runner.temp }}/sa-key.json
+        run: npx firebase-tools deploy --only functions --project ${{ secrets.FIREBASE_PROJECT_ID }}
