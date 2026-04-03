@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import { useAuth } from "../hooks/useAuth";
-import { auth } from "../lib/firebase";
+import { auth, getFunctionsUrl } from "../lib/firebase";
 import styles from "./AdminPage.module.css";
 
 interface AdminUser {
@@ -11,11 +11,9 @@ interface AdminUser {
   createdAt: string;
 }
 
-const FUNCTIONS_URL = import.meta.env.VITE_FUNCTIONS_URL as string;
-
 async function apiFetch<T>(path: string, options: RequestInit = {}): Promise<T> {
   const token = await auth.currentUser?.getIdToken();
-  const res = await fetch(`${FUNCTIONS_URL}/${path}`, {
+  const res = await fetch(`${getFunctionsUrl()}/${path}`, {
     ...options,
     headers: {
       "Content-Type": "application/json",
