@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
 import { isValidEmail } from "@vibeboiler/shared";
+import { AuthLayout } from "../components/AuthLayout";
+import styles from "../components/AuthLayout.module.css";
 
 export function LoginPage() {
   const [email, setEmail] = useState("");
@@ -32,42 +34,41 @@ export function LoginPage() {
   };
 
   return (
-    <div style={{ maxWidth: 400, margin: "2rem auto", padding: "0 1rem" }}>
-      <h1>Log In</h1>
-      <form onSubmit={handleSubmit} noValidate>
-        {error && <p style={{ color: "red" }}>{error}</p>}
-        <div style={{ marginBottom: "1rem" }}>
-          <label htmlFor="email">Email</label>
+    <AuthLayout title="Log In" subtitle="Welcome back to VibeBoiler">
+      <form onSubmit={handleSubmit} noValidate className={styles.form}>
+        {error && <p className={styles.error}>{error}</p>}
+        <div className={styles.field}>
+          <label htmlFor="email" className={styles.label}>Email</label>
           <input
             id="email"
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
-            style={{ display: "block", width: "100%", padding: "0.5rem" }}
+            className={styles.input}
           />
         </div>
-        <div style={{ marginBottom: "1rem" }}>
-          <label htmlFor="password">Password</label>
+        <div className={styles.field}>
+          <label htmlFor="password" className={styles.label}>Password</label>
           <input
             id="password"
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
-            style={{ display: "block", width: "100%", padding: "0.5rem" }}
+            className={styles.input}
           />
         </div>
-        <button type="submit" disabled={loading} style={{ padding: "0.5rem 1rem" }}>
+        <button type="submit" disabled={loading} className={styles.button}>
           {loading ? "Logging in..." : "Log In"}
         </button>
       </form>
-      <p style={{ marginTop: "1rem" }}>
+      <div className={styles.footerLink}>
         <Link to="/forgot-password">Forgot password?</Link>
-      </p>
-      <p>
+      </div>
+      <div className={styles.footer}>
         Don&apos;t have an account? <Link to="/signup">Sign up</Link>
-      </p>
-    </div>
+      </div>
+    </AuthLayout>
   );
 }

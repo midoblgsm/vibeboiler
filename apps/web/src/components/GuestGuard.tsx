@@ -1,13 +1,13 @@
 import React from "react";
 import { Navigate } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
-import styles from "./AuthGuard.module.css";
+import styles from "./GuestGuard.module.css";
 
-interface AuthGuardProps {
+interface GuestGuardProps {
   children: React.ReactNode;
 }
 
-export function AuthGuard({ children }: AuthGuardProps) {
+export function GuestGuard({ children }: GuestGuardProps) {
   const { user, loading } = useAuth();
 
   if (loading) {
@@ -18,8 +18,8 @@ export function AuthGuard({ children }: AuthGuardProps) {
     );
   }
 
-  if (!user) {
-    return <Navigate to="/login" replace />;
+  if (user) {
+    return <Navigate to="/" replace />;
   }
 
   return <>{children}</>;

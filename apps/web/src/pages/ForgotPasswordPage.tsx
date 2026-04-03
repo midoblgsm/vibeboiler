@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
 import { isValidEmail } from "@vibeboiler/shared";
+import { AuthLayout } from "../components/AuthLayout";
+import styles from "../components/AuthLayout.module.css";
 
 export function ForgotPasswordPage() {
   const [email, setEmail] = useState("");
@@ -32,37 +34,40 @@ export function ForgotPasswordPage() {
   };
 
   return (
-    <div style={{ maxWidth: 400, margin: "2rem auto", padding: "0 1rem" }}>
-      <h1>Reset Password</h1>
+    <AuthLayout title="Reset Password" subtitle="Enter your email to receive a reset link">
       {success ? (
         <div>
-          <p style={{ color: "green" }}>
+          <p className={styles.success}>
             Password reset email sent! Check your inbox.
           </p>
-          <Link to="/login">Back to login</Link>
+          <div className={styles.footer}>
+            <Link to="/login">Back to login</Link>
+          </div>
         </div>
       ) : (
-        <form onSubmit={handleSubmit} noValidate>
-          {error && <p style={{ color: "red" }}>{error}</p>}
-          <div style={{ marginBottom: "1rem" }}>
-            <label htmlFor="email">Email</label>
-            <input
-              id="email"
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-              style={{ display: "block", width: "100%", padding: "0.5rem" }}
-            />
-          </div>
-          <button type="submit" disabled={loading} style={{ padding: "0.5rem 1rem" }}>
-            {loading ? "Sending..." : "Send Reset Email"}
-          </button>
-          <p style={{ marginTop: "1rem" }}>
+        <>
+          <form onSubmit={handleSubmit} noValidate className={styles.form}>
+            {error && <p className={styles.error}>{error}</p>}
+            <div className={styles.field}>
+              <label htmlFor="email" className={styles.label}>Email</label>
+              <input
+                id="email"
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+                className={styles.input}
+              />
+            </div>
+            <button type="submit" disabled={loading} className={styles.button}>
+              {loading ? "Sending..." : "Send Reset Email"}
+            </button>
+          </form>
+          <div className={styles.footer}>
             <Link to="/login">Back to login</Link>
-          </p>
-        </form>
+          </div>
+        </>
       )}
-    </div>
+    </AuthLayout>
   );
 }
