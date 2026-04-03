@@ -13,6 +13,7 @@ on:
       - "firestore.rules"
       - "firestore.indexes.json"
       - "storage.rules"
+  workflow_dispatch:
 
 jobs:
   deploy:
@@ -29,13 +30,13 @@ jobs:
           echo '${{ secrets.FIREBASE_SERVICE_ACCOUNT }}' > "$RUNNER_TEMP/sa-key.json"
 
       - name: Deploy Firestore Rules & Indexes
-        if: github.event_name == 'push'
+        if: github.event_name != 'pull_request'
         run: firebase deploy --only firestore --project ${{ secrets.FIREBASE_PROJECT_ID }}
         env:
           GOOGLE_APPLICATION_CREDENTIALS: ${{ runner.temp }}/sa-key.json
 
       - name: Deploy Storage Rules
-        if: github.event_name == 'push'
+        if: github.event_name != 'pull_request'
         run: firebase deploy --only storage --project ${{ secrets.FIREBASE_PROJECT_ID }}
         env:
           GOOGLE_APPLICATION_CREDENTIALS: ${{ runner.temp }}/sa-key.json
