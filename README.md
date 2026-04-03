@@ -393,6 +393,18 @@ Each workflow is independent so that:
 | `NEON_DATABASE_URL` | Functions | Neon Postgres connection string |
 | `GOOGLE_APPLICATION_CREDENTIALS` | Functions (local) | Path to Firebase service account JSON |
 
+## Roadmap
+
+- [ ] **CLI Setup Wizard** (`npx vibeboiler init`) — Automate project bootstrapping:
+  - Create Firebase project + enable services (Auth, Firestore, Storage) via `firebase`/`gcloud` CLI
+  - Create Neon DB and retrieve connection URL via Neon API
+  - Create GitHub repo from template via `gh` CLI
+  - Create Expo project via `eas init`
+  - Generate service account keys via `gcloud` CLI
+  - Store all secrets in GitHub via `gh secret set`
+  - Register App ID in Apple Developer via App Store Connect API
+  - Print checklist for remaining manual steps (Play Console app creation, service account invitation, first AAB upload, first local EAS builds)
+
 ## License
 
 MIT
