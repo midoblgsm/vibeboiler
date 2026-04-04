@@ -169,27 +169,49 @@ eas login
 3. Configure the project:
 ```bash
 cd apps/mobile
+# If creating a new project:
 eas init
+# Or if linking to an existing Expo project, use its ID:
+eas init --id <your-expo-project-uuid>
 ```
    - This will create your project on expo.dev and set `extra.eas.projectId` in `app.json`
-   - Copy the project ID — you'll need it as a GitHub secret (`EAS_PROJECT_ID`)
+   - **Important**: The `projectId` must be a valid UUID (e.g., `a1b2c3d4-e5f6-7890-abcd-ef1234567890`). CI/CD builds will fail with "Invalid UUID appId" if this is a placeholder value.
+   - Copy the exact UUID — you'll need it as a GitHub secret (`EAS_PROJECT_ID`). The secret value must match `app.json` exactly.
 4. Update `apps/mobile/app.json`:
    - Set `ios.bundleIdentifier` to your actual bundle ID (e.g., `com.yourcompany.vibeboiler`)
    - Set `android.package` to your actual package name
+   - Verify `extra.eas.projectId` is the real UUID from step 3 (not the placeholder `your-eas-project-id`)
 5. Update `apps/mobile/eas.json`:
    - Set `submit.production.ios.appleId` to your Apple ID
    - Set `submit.production.ios.ascAppId` to your App Store Connect App ID
    - Set `submit.production.ios.appleTeamId` to your Apple Team ID
-6. **Run the first builds locally** (required before CI/CD can submit):
-```bash
-cd apps/mobile
-# First iOS build — sets up credentials and registers the app with Apple
-eas build --platform ios --profile production
-# First Android build — generates the AAB for initial Play Store upload
-eas build --platform android --profile production
-```
+6. **Run the first builds and submissions locally** (required before CI/CD):
+
+   > **Why local first?** EAS needs to interactively set up signing credentials (iOS certificates, Android keystores) on the first build. The App Store and Play Store also require an initial manual submission before automated CI/CD submissions can work.
+
+   ```bash
+   cd apps/mobile
+   # First iOS build — sets up credentials and registers the app with Apple
+   eas build --platform ios --profile production
+   # First Android build — generates the AAB for initial Play Store upload
+   eas build --platform android --profile production
+   ```
    - EAS will walk you through credentials setup (signing certificates, keystores, etc.)
-   - These first builds must complete before CI/CD workflows can submit to the stores
+   - After builds complete, submit to the stores locally:
+   ```bash
+   # First iOS submission to App Store
+   eas submit --platform ios --profile production
+   # First Android submission — upload AAB to Play Store internal testing track
+   eas submit --platform android --profile production
+   ```
+   - These first builds and submissions must complete successfully before CI/CD workflows can take over.
+
+   **Pre-CI/CD checklist:**
+   - [ ] `app.json` → `extra.eas.projectId` is a valid UUID (not a placeholder)
+   - [ ] `app.json` → `ios.bundleIdentifier` and `android.package` are set to real values
+   - [ ] `EAS_PROJECT_ID` GitHub secret matches the UUID in `app.json`
+   - [ ] First iOS build + submit completed locally via `eas build` and `eas submit`
+   - [ ] First Android build + submit completed locally via `eas build` and `eas submit`
 
 ### 6. Apple Developer Portal Setup (iOS)
 
