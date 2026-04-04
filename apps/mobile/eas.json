@@ -25,6 +25,16 @@
     }
   },
   "submit": {
-    "production": {}
+    "production": {
+      "ios": {
+        "appleId": "mohamed.mohamed@craftschoolship.com",
+        "ascAppId": "6761626207",
+        "appleTeamId": "23H8S3ZU52"
+      },
+      "android": {
+        "serviceAccountKeyPath": "./google-play-service-account.json",
+        "track": "internal"
+      }
+    }
   }
 }
