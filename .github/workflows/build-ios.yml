@@ -30,17 +30,11 @@ jobs:
       - name: Configure app for build
         working-directory: apps/mobile
         run: |
-          jq '
-            .expo.extra.eas.projectId = "${{ secrets.EAS_PROJECT_ID }}" |
-            .expo.ios.bundleIdentifier = "${{ secrets.BUNDLE_ID }}" |
-            .expo.android.package = "${{ secrets.BUNDLE_ID }}"
-          ' app.json > app.json.tmp && mv app.json.tmp app.json
-
-          jq '
-            .submit.production.ios.appleId = "${{ secrets.APPLE_ID }}" |
-            .submit.production.ios.ascAppId = "${{ secrets.ASC_APP_ID }}" |
-            .submit.production.ios.appleTeamId = "${{ secrets.APPLE_TEAM_ID }}"
-          ' eas.json > eas.json.tmp && mv eas.json.tmp eas.json
+          if [ -n "${{ secrets.EAS_PROJECT_ID }}" ]; then
+            jq --arg pid "${{ secrets.EAS_PROJECT_ID }}" \
+              '.expo.extra.eas.projectId = $pid' \
+              app.json > app.json.tmp && mv app.json.tmp app.json
+          fi
 
       - name: Build iOS
         working-directory: apps/mobile
