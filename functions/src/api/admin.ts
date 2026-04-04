@@ -20,7 +20,7 @@ interface AdminUserEntry {
   createdAt: string;
 }
 
-export const listUsers = onRequest({ cors: true }, async (req, res) => {
+export const listUsers = onRequest({ cors: true, secrets: ["NEON_DATABASE_URL"] }, async (req, res) => {
   if (req.method !== "GET") {
     res.status(405).json({ error: { code: "METHOD_NOT_ALLOWED", message: "Use GET" } });
     return;
@@ -52,7 +52,7 @@ const createUserSchema = z.object({
   role: z.enum(["user", "admin"]).default("user"),
 });
 
-export const createUser = onRequest({ cors: true }, async (req, res) => {
+export const createUser = onRequest({ cors: true, secrets: ["NEON_DATABASE_URL"] }, async (req, res) => {
   if (req.method !== "POST") {
     res.status(405).json({ error: { code: "METHOD_NOT_ALLOWED", message: "Use POST" } });
     return;
@@ -120,7 +120,7 @@ const deleteUserSchema = z.object({
   uid: z.string().min(1),
 });
 
-export const deleteUser = onRequest({ cors: true }, async (req, res) => {
+export const deleteUser = onRequest({ cors: true, secrets: ["NEON_DATABASE_URL"] }, async (req, res) => {
   if (req.method !== "DELETE") {
     res.status(405).json({ error: { code: "METHOD_NOT_ALLOWED", message: "Use DELETE" } });
     return;
@@ -173,7 +173,7 @@ const setUserRoleSchema = z.object({
   role: z.enum(["user", "admin"]),
 });
 
-export const setUserRole = onRequest({ cors: true }, async (req, res) => {
+export const setUserRole = onRequest({ cors: true, secrets: ["NEON_DATABASE_URL"] }, async (req, res) => {
   if (req.method !== "POST") {
     res.status(405).json({ error: { code: "METHOD_NOT_ALLOWED", message: "Use POST" } });
     return;

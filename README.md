@@ -99,12 +99,13 @@ pnpm install
    - Go to [Google Cloud Console > APIs & Services](https://console.cloud.google.com/apis/library)
    - Search for "Cloud Billing API" and enable it
    - This is required for Firebase Functions deployment via CI/CD
-5. Generate a **Service Account Key**:
+5. **Artifact Registry cleanup policy**: The `deploy-functions` workflow automatically sets a 7-day cleanup policy on the `gcf-artifacts` repository after each deploy, preventing old container images from accumulating storage costs.
+6. Generate a **Service Account Key**:
    - Go to Project Settings > Service accounts
    - Click "Generate new private key"
    - Save the JSON file (DO NOT commit this file)
 
-6. Update `.firebaserc`:
+7. Update `.firebaserc`:
 ```json
 {
   "projects": {
@@ -113,7 +114,7 @@ pnpm install
 }
 ```
 
-7. Login to Firebase locally:
+8. Login to Firebase locally:
 ```bash
 firebase login
 ```
