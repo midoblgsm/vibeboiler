@@ -27,48 +27,48 @@ vi.mock("firebase/auth", () => ({
 }));
 
 describe("App", () => {
-  it("renders login page for unauthenticated users", () => {
+  it("renders login page for unauthenticated users", async () => {
     render(
       <MemoryRouter initialEntries={["/login"]}>
         <App />
       </MemoryRouter>,
     );
-    expect(screen.getByRole("heading", { name: "Log In" })).toBeInTheDocument();
+    expect(await screen.findByRole("heading", { name: "Log In" })).toBeInTheDocument();
   });
 
-  it("renders signup page", () => {
+  it("renders signup page", async () => {
     render(
       <MemoryRouter initialEntries={["/signup"]}>
         <App />
       </MemoryRouter>,
     );
-    expect(screen.getByRole("heading", { name: "Sign Up" })).toBeInTheDocument();
+    expect(await screen.findByRole("heading", { name: "Sign Up" })).toBeInTheDocument();
   });
 
-  it("renders forgot password page", () => {
+  it("renders forgot password page", async () => {
     render(
       <MemoryRouter initialEntries={["/forgot-password"]}>
         <App />
       </MemoryRouter>,
     );
-    expect(screen.getByText("Reset Password")).toBeInTheDocument();
+    expect(await screen.findByText("Reset Password")).toBeInTheDocument();
   });
 
-  it("redirects unauthenticated users from home to login", () => {
+  it("redirects unauthenticated users from home to login", async () => {
     render(
       <MemoryRouter initialEntries={["/"]}>
         <App />
       </MemoryRouter>,
     );
-    expect(screen.getByRole("heading", { name: "Log In" })).toBeInTheDocument();
+    expect(await screen.findByRole("heading", { name: "Log In" })).toBeInTheDocument();
   });
 
-  it("redirects unauthenticated users from admin to login", () => {
+  it("redirects unauthenticated users from admin to login", async () => {
     render(
       <MemoryRouter initialEntries={["/admin"]}>
         <App />
       </MemoryRouter>,
     );
-    expect(screen.getByRole("heading", { name: "Log In" })).toBeInTheDocument();
+    expect(await screen.findByRole("heading", { name: "Log In" })).toBeInTheDocument();
   });
 });
