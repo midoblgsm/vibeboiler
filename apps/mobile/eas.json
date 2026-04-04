@@ -4,7 +4,13 @@
     "appVersionSource": "remote"
   },
   "build": {
+    "base": {
+      "image": "latest",
+      "node": "20.x",
+      "pnpm": "9.15.4"
+    },
     "development": {
+      "extends": "base",
       "developmentClient": true,
       "distribution": "internal",
       "ios": {
@@ -12,9 +18,11 @@
       }
     },
     "preview": {
+      "extends": "base",
       "distribution": "internal"
     },
     "production": {
+      "extends": "base",
       "autoIncrement": true
     }
   },
