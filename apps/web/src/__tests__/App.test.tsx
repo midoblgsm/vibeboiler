@@ -1,5 +1,5 @@
-import { describe, it, expect, vi } from "vitest";
-import { render, screen } from "@testing-library/react";
+import { describe, it, expect, vi, beforeEach } from "vitest";
+import { render, screen, act, cleanup } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import { App } from "../App";
 
@@ -23,49 +23,58 @@ vi.mock("../lib/firebase", () => ({
   storage: {},
 }));
 
-describe("App", () => {
-  it("renders login page for unauthenticated users", () => {
+vi.mock("firebase/auth", () => ({
+  getAuth: vi.fn(),
+  onAuthStateChanged: vi.fn(() => vi.fn()),
+  signInWithEmailAndPassword: vi.fn(),
+  createUserWithEmailAndPassword: vi.fn(),
+  sendPasswordResetEmail: vi.fn(),
+  signOut: vi.fn(),
+}));
+
+vi.mock("@vibeboiler/shared", () => ({
+  isValidEmail: vi.fn(() => true),
+  validatePassword: vi.fn(() => ({ isValid: true, errors: [] })),
+  isNonEmpty: vi.fn(() => true),
+}));
+
+beforeEach(() => {
+  cleanup();
+});
+
+function renderWithRouter(route: string) {
+  return act(() => {
     render(
-      <MemoryRouter initialEntries={["/login"]}>
+      <MemoryRouter initialEntries={[route]}>
         <App />
       </MemoryRouter>,
     );
+  });
+}
+
+describe("App", () => {
+  it("renders login page for unauthenticated users", async () => {
+    await renderWithRouter("/login");
     expect(screen.getByRole("heading", { name: "Log In" })).toBeInTheDocument();
   });
 
-  it("renders signup page", () => {
-    render(
-      <MemoryRouter initialEntries={["/signup"]}>
-        <App />
-      </MemoryRouter>,
-    );
+  it("renders signup page", async () => {
+    await renderWithRouter("/signup");
     expect(screen.getByRole("heading", { name: "Sign Up" })).toBeInTheDocument();
   });
 
-  it("renders forgot password page", () => {
-    render(
-      <MemoryRouter initialEntries={["/forgot-password"]}>
-        <App />
-      </MemoryRouter>,
-    );
+  it("renders forgot password page", async () => {
+    await renderWithRouter("/forgot-password");
     expect(screen.getByText("Reset Password")).toBeInTheDocument();
   });
 
-  it("redirects unauthenticated users from home to login", () => {
-    render(
-      <MemoryRouter initialEntries={["/"]}>
-        <App />
-      </MemoryRouter>,
-    );
+  it("redirects unauthenticated users from home to login", async () => {
+    await renderWithRouter("/");
     expect(screen.getByRole("heading", { name: "Log In" })).toBeInTheDocument();
   });
 
-  it("redirects unauthenticated users from admin to login", () => {
-    render(
-      <MemoryRouter initialEntries={["/admin"]}>
-        <App />
-      </MemoryRouter>,
-    );
+  it("redirects unauthenticated users from admin to login", async () => {
+    await renderWithRouter("/admin");
     expect(screen.getByRole("heading", { name: "Log In" })).toBeInTheDocument();
   });
 });
