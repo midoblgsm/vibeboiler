@@ -18,7 +18,7 @@ jobs:
       - uses: pnpm/action-setup@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
           cache: pnpm
       - run: pnpm install --frozen-lockfile
       - uses: actions/cache/save@v4
@@ -28,7 +28,7 @@ jobs:
             apps/*/node_modules
             packages/*/node_modules
             functions/node_modules
-          key: node-modules-${{ hashFiles('pnpm-lock.yaml') }}
+          key: node-modules-v2-${{ hashFiles('pnpm-lock.yaml') }}
 
   lint:
     name: Lint
@@ -39,7 +39,7 @@ jobs:
       - uses: pnpm/action-setup@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
           cache: pnpm
       - uses: actions/cache/restore@v4
         with:
@@ -48,7 +48,7 @@ jobs:
             apps/*/node_modules
             packages/*/node_modules
             functions/node_modules
-          key: node-modules-${{ hashFiles('pnpm-lock.yaml') }}
+          key: node-modules-v2-${{ hashFiles('pnpm-lock.yaml') }}
       - run: pnpm lint
 
   typecheck:
@@ -60,7 +60,7 @@ jobs:
       - uses: pnpm/action-setup@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
           cache: pnpm
       - uses: actions/cache/restore@v4
         with:
@@ -69,7 +69,7 @@ jobs:
             apps/*/node_modules
             packages/*/node_modules
             functions/node_modules
-          key: node-modules-${{ hashFiles('pnpm-lock.yaml') }}
+          key: node-modules-v2-${{ hashFiles('pnpm-lock.yaml') }}
       - run: pnpm typecheck
 
   test-shared:
@@ -81,7 +81,7 @@ jobs:
       - uses: pnpm/action-setup@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
           cache: pnpm
       - uses: actions/cache/restore@v4
         with:
@@ -90,7 +90,7 @@ jobs:
             apps/*/node_modules
             packages/*/node_modules
             functions/node_modules
-          key: node-modules-${{ hashFiles('pnpm-lock.yaml') }}
+          key: node-modules-v2-${{ hashFiles('pnpm-lock.yaml') }}
       - run: pnpm --filter @vibeboiler/shared test
 
   test-web:
@@ -102,7 +102,7 @@ jobs:
       - uses: pnpm/action-setup@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
           cache: pnpm
       - uses: actions/cache/restore@v4
         with:
@@ -111,7 +111,7 @@ jobs:
             apps/*/node_modules
             packages/*/node_modules
             functions/node_modules
-          key: node-modules-${{ hashFiles('pnpm-lock.yaml') }}
+          key: node-modules-v2-${{ hashFiles('pnpm-lock.yaml') }}
       - run: pnpm --filter @vibeboiler/web test
 
   test-functions:
@@ -123,7 +123,7 @@ jobs:
       - uses: pnpm/action-setup@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
           cache: pnpm
       - uses: actions/cache/restore@v4
         with:
@@ -132,7 +132,7 @@ jobs:
             apps/*/node_modules
             packages/*/node_modules
             functions/node_modules
-          key: node-modules-${{ hashFiles('pnpm-lock.yaml') }}
+          key: node-modules-v2-${{ hashFiles('pnpm-lock.yaml') }}
       - run: pnpm --filter @vibeboiler/functions test
 
   test-mobile:
@@ -144,7 +144,7 @@ jobs:
       - uses: pnpm/action-setup@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
           cache: pnpm
       - uses: actions/cache/restore@v4
         with:
@@ -153,7 +153,7 @@ jobs:
             apps/*/node_modules
             packages/*/node_modules
             functions/node_modules
-          key: node-modules-${{ hashFiles('pnpm-lock.yaml') }}
+          key: node-modules-v2-${{ hashFiles('pnpm-lock.yaml') }}
       - run: pnpm --filter @vibeboiler/mobile test
 
   e2e-web:
@@ -165,7 +165,7 @@ jobs:
       - uses: pnpm/action-setup@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
           cache: pnpm
       - uses: actions/cache/restore@v4
         with:
@@ -174,7 +174,7 @@ jobs:
             apps/*/node_modules
             packages/*/node_modules
             functions/node_modules
-          key: node-modules-${{ hashFiles('pnpm-lock.yaml') }}
+          key: node-modules-v2-${{ hashFiles('pnpm-lock.yaml') }}
       - name: Install Playwright Browsers
         run: pnpm --filter @vibeboiler/web exec playwright install --with-deps chromium
       - name: Run E2E Tests
