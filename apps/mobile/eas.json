@@ -5,6 +5,7 @@
   },
   "build": {
     "development": {
+      "monorepo": true,
       "node": "22.16.0",
       "pnpm": "9.15.4",
       "developmentClient": true,
@@ -14,11 +15,13 @@
       }
     },
     "preview": {
+      "monorepo": true,
       "node": "22.16.0",
       "pnpm": "9.15.4",
       "distribution": "internal"
     },
     "production": {
+      "monorepo": true,
       "node": "22.16.0",
       "pnpm": "9.15.4",
       "autoIncrement": true
