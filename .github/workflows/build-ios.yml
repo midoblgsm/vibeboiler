@@ -32,8 +32,8 @@ jobs:
         run: |
           jq '
             .expo.extra.eas.projectId = "${{ secrets.EAS_PROJECT_ID }}" |
-            .expo.ios.bundleIdentifier = "${{ secrets.IOS_BUNDLE_IDENTIFIER }}" |
-            .expo.android.package = "${{ secrets.ANDROID_PACKAGE_NAME }}"
+            .expo.ios.bundleIdentifier = "${{ secrets.BUNDLE_ID }}" |
+            .expo.android.package = "${{ secrets.BUNDLE_ID }}"
           ' app.json > app.json.tmp && mv app.json.tmp app.json
 
           jq '
