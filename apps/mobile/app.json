@@ -15,7 +15,10 @@
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.craftschoolship.vibeboiler"
+      "bundleIdentifier": "com.craftschoolship.vibeboiler",
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      }
     },
     "android": {
       "adaptiveIcon": {
@@ -24,15 +27,22 @@
       },
       "package": "com.yourcompany.vibeboiler"
     },
-    "plugins": ["expo-router", "expo-secure-store"],
+    "plugins": [
+      "expo-router",
+      "expo-secure-store"
+    ],
     "experiments": {
       "typedRoutes": true
     },
     "extra": {
       "eas": {
-        "projectId": "your-eas-project-id"
+        "projectId": "6eededb8-59ad-480b-90b1-1527783cc5bd"
       },
-      "FIREBASE_API_KEY": "${EXPO_PUBLIC_FIREBASE_API_KEY}"
-    }
+      "FIREBASE_API_KEY": "${EXPO_PUBLIC_FIREBASE_API_KEY}",
+      "router": {
+        "origin": false
+      }
+    },
+    "owner": "craftschoolship"
   }
 }
