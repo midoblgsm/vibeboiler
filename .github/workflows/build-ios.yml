@@ -27,10 +27,20 @@ jobs:
           eas-version: latest
           token: ${{ secrets.EXPO_TOKEN }}
 
-      - name: Set EAS project ID
+      - name: Configure app for build
         working-directory: apps/mobile
         run: |
-          jq '.expo.extra.eas.projectId = "${{ secrets.EAS_PROJECT_ID }}"' app.json > app.json.tmp && mv app.json.tmp app.json
+          jq '
+            .expo.extra.eas.projectId = "${{ secrets.EAS_PROJECT_ID }}" |
+            .expo.ios.bundleIdentifier = "${{ secrets.IOS_BUNDLE_IDENTIFIER }}" |
+            .expo.android.package = "${{ secrets.ANDROID_PACKAGE_NAME }}"
+          ' app.json > app.json.tmp && mv app.json.tmp app.json
+
+          jq '
+            .submit.production.ios.appleId = "${{ secrets.APPLE_ID }}" |
+            .submit.production.ios.ascAppId = "${{ secrets.ASC_APP_ID }}" |
+            .submit.production.ios.appleTeamId = "${{ secrets.APPLE_TEAM_ID }}"
+          ' eas.json > eas.json.tmp && mv eas.json.tmp eas.json
 
       - name: Build iOS
         working-directory: apps/mobile
