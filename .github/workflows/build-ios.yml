@@ -26,6 +26,11 @@ jobs:
           eas-version: latest
           token: ${{ secrets.EXPO_TOKEN }}
 
+      - name: Set EAS project ID
+        working-directory: apps/mobile
+        run: |
+          jq '.expo.extra.eas.projectId = "${{ secrets.EAS_PROJECT_ID }}"' app.json > app.json.tmp && mv app.json.tmp app.json
+
       - name: Build iOS
         working-directory: apps/mobile
         run: eas build --platform ios --profile production --non-interactive
