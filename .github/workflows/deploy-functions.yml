@@ -44,3 +44,21 @@ jobs:
       - name: Deploy to Firebase Functions
         if: github.event_name != 'pull_request'
         run: npx firebase-tools deploy --only functions --project ${{ secrets.FIREBASE_PROJECT_ID }}
+
+      - name: Set Artifact Registry cleanup policy
+        if: github.event_name != 'pull_request'
+        run: |
+          cat > /tmp/cleanup-policy.json << 'EOF'
+          [
+            {
+              "id": "delete-old-images",
+              "action": { "type": "Delete" },
+              "condition": { "olderThan": "604800s" }
+            }
+          ]
+          EOF
+          gcloud artifacts repositories set-cleanup-policies gcf-artifacts \
+            --project=${{ secrets.FIREBASE_PROJECT_ID }} \
+            --location=us-central1 \
+            --policy=/tmp/cleanup-policy.json \
+            --no-dry-run
