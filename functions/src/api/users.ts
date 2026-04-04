@@ -25,7 +25,7 @@ const updateProfileSchema = z.object({
   bio: z.string().max(500).optional(),
 });
 
-export const getProfile = onRequest(async (req, res) => {
+export const getProfile = onRequest({ secrets: ["NEON_DATABASE_URL"] }, async (req, res) => {
   const authReq = req as AuthenticatedRequest;
   const decoded = await verifyAuth(authReq, res);
   if (!decoded) return;
@@ -59,7 +59,7 @@ export const getProfile = onRequest(async (req, res) => {
   res.json(response);
 });
 
-export const updateProfile = onRequest(async (req, res) => {
+export const updateProfile = onRequest({ secrets: ["NEON_DATABASE_URL"] }, async (req, res) => {
   if (req.method !== "PUT" && req.method !== "PATCH") {
     res.status(405).json({ error: { code: "METHOD_NOT_ALLOWED", message: "Use PUT or PATCH" } });
     return;
