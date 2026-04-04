@@ -277,8 +277,12 @@ git push -u origin main
 | `FIREBASE_APP_ID` | Firebase Web App ID |
 | `NEON_DATABASE_URL` | Neon Postgres connection string |
 | `EXPO_TOKEN` | Expo access token (from expo.dev > Account Settings > Access Tokens) |
-| `EAS_PROJECT_ID` | Expo project ID (from `eas init` or expo.dev project settings) |
+| `EAS_PROJECT_ID` | Expo project UUID (from `eas init` — must be a valid UUID) |
+| `IOS_BUNDLE_IDENTIFIER` | iOS bundle identifier (e.g., `com.craftschoolship.vibeboiler`) |
+| `ANDROID_PACKAGE_NAME` | Android package name (e.g., `com.craftschoolship.vibeboiler`) |
 | `APPLE_ID` | Your Apple ID email |
+| `APPLE_TEAM_ID` | Apple Developer Team ID (from Apple Developer portal > Membership) |
+| `ASC_APP_ID` | App Store Connect App ID (numeric, from App Store Connect > App Information) |
 | `APPLE_APP_SPECIFIC_PASSWORD` | App-specific password for App Store submissions |
 | `GOOGLE_PLAY_SERVICE_ACCOUNT_KEY` | Google Play service account JSON key (can be the same as `FIREBASE_SERVICE_ACCOUNT` if the Firebase service account has Google Play Console permissions) |
 
