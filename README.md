@@ -95,12 +95,16 @@ pnpm install
 3. Register a **Web App** in Project Settings:
    - Go to Project Settings > General > Your apps > Add app (Web)
    - Copy the Firebase config values
-4. Generate a **Service Account Key**:
+4. Enable the **Cloud Billing API**:
+   - Go to [Google Cloud Console > APIs & Services](https://console.cloud.google.com/apis/library)
+   - Search for "Cloud Billing API" and enable it
+   - This is required for Firebase Functions deployment via CI/CD
+5. Generate a **Service Account Key**:
    - Go to Project Settings > Service accounts
    - Click "Generate new private key"
    - Save the JSON file (DO NOT commit this file)
 
-5. Update `.firebaserc`:
+6. Update `.firebaserc`:
 ```json
 {
   "projects": {
@@ -109,7 +113,7 @@ pnpm install
 }
 ```
 
-6. Login to Firebase locally:
+7. Login to Firebase locally:
 ```bash
 firebase login
 ```
