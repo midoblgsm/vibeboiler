@@ -39,13 +39,7 @@ jobs:
       - name: Set Cloud Functions secrets
         if: github.event_name != 'pull_request'
         run: |
-          for SECRET_NAME in NEON_DATABASE_URL; do
-            VALUE_VAR="SECRET_${SECRET_NAME}"
-            echo -n "${!VALUE_VAR}" | gcloud secrets create "$SECRET_NAME" --data-file=- --project=${{ secrets.FIREBASE_PROJECT_ID }} 2>/dev/null || \
-            echo -n "${!VALUE_VAR}" | gcloud secrets versions add "$SECRET_NAME" --data-file=- --project=${{ secrets.FIREBASE_PROJECT_ID }}
-          done
-        env:
-          SECRET_NEON_DATABASE_URL: ${{ secrets.NEON_DATABASE_URL }}
+          echo "${{ secrets.NEON_DATABASE_URL }}" | npx firebase-tools functions:secrets:set NEON_DATABASE_URL --data-file=- --project ${{ secrets.FIREBASE_PROJECT_ID }}
 
       - name: Deploy to Firebase Functions
         if: github.event_name != 'pull_request'
