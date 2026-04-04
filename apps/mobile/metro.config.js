@@ -15,4 +15,10 @@ config.resolver.nodeModulesPaths = [
   path.resolve(monorepoRoot, "node_modules"),
 ];
 
+// Explicitly map workspace packages so Metro can resolve them
+// even when pnpm symlinks aren't followed correctly in CI
+config.resolver.extraNodeModules = {
+  "@vibeboiler/shared": path.resolve(monorepoRoot, "packages/shared"),
+};
+
 module.exports = config;
