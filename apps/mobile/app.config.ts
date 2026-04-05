@@ -18,6 +18,7 @@ const config = {
   ios: {
     supportsTablet: true,
     bundleIdentifier: "com.craftschoolship.vibeboiler",
+    googleServicesFile: "./GoogleService-Info.plist",
     infoPlist: {
       ITSAppUsesNonExemptEncryption: false,
     },
@@ -27,7 +28,8 @@ const config = {
       foregroundImage: "./assets/adaptive-icon.png",
       backgroundColor: "#ffffff",
     },
-    package: "com.yourcompany.vibeboiler",
+    package: "com.craftschoolship.vibeboiler",
+    googleServicesFile: "./google-services.json",
   },
   plugins: ["expo-router", "expo-secure-store"],
   experiments: {
@@ -37,7 +39,8 @@ const config = {
     eas: {
       projectId: "6eededb8-59ad-480b-90b1-1527783cc5bd",
     },
-    FIREBASE_API_KEY: process.env.EXPO_PUBLIC_FIREBASE_API_KEY ?? "",
+    FIREBASE_API_KEY:
+      process.env.EXPO_PUBLIC_FIREBASE_API_KEY || "AIzaSyAt0Xx-iU21C7TcRDkYtyuwGLUYRY-ljUI",
     router: {
       origin: false,
     },

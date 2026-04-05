@@ -24,7 +24,10 @@ async function firebaseAuthRequest(
 
   if (!response.ok) {
     const errorData = (await response.json()) as FirebaseAuthError;
-    throw new Error(errorData.error.message);
+    const keyHint = FIREBASE_API_KEY
+      ? `key starts with ${FIREBASE_API_KEY.slice(0, 10)}...`
+      : "key is EMPTY";
+    throw new Error(`${errorData.error.message} (${keyHint})`);
   }
 
   const data = await response.json();
