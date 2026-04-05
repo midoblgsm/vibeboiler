@@ -95,17 +95,27 @@ pnpm install
 3. Register a **Web App** in Project Settings:
    - Go to Project Settings > General > Your apps > Add app (Web)
    - Copy the Firebase config values
-4. Enable the **Cloud Billing API**:
+4. Register **iOS and Android apps** in Firebase:
+   - Go to Project Settings > General > Your apps > Add app
+   - **iOS**: Click the iOS icon, enter your bundle ID (`com.craftschoolship.vibeboiler`), register the app, and download `GoogleService-Info.plist` (needed for push notifications later)
+   - **Android**: Click the Android icon, enter your package name (same as bundle ID or your Android package), register the app, and download `google-services.json`
+   - These registrations are **required** so that the Firebase API key is authorized to call Identity Toolkit and Token Service APIs from mobile devices. Without them, login calls will fail with "Method doesn't allow unregistered callers"
+5. Enable the **Identity Toolkit API** and **Token Service API**:
+   - Go to [Google Cloud Console > APIs & Services > Library](https://console.cloud.google.com/apis/library)
+   - Search for "Identity Toolkit API" and enable it
+   - Search for "Token Service API" and enable it
+   - The mobile app uses Firebase Auth REST API directly, which requires these APIs enabled
+7. Enable the **Cloud Billing API**:
    - Go to [Google Cloud Console > APIs & Services](https://console.cloud.google.com/apis/library)
    - Search for "Cloud Billing API" and enable it
    - This is required for Firebase Functions deployment via CI/CD
-5. **Artifact Registry cleanup policy**: The `deploy-functions` workflow automatically sets a 7-day cleanup policy on the `gcf-artifacts` repository after each deploy, preventing old container images from accumulating storage costs.
-6. Generate a **Service Account Key**:
+8. **Artifact Registry cleanup policy**: The `deploy-functions` workflow automatically sets a 7-day cleanup policy on the `gcf-artifacts` repository after each deploy, preventing old container images from accumulating storage costs.
+9. Generate a **Service Account Key**:
    - Go to Project Settings > Service accounts
    - Click "Generate new private key"
    - Save the JSON file (DO NOT commit this file)
 
-7. Update `.firebaserc`:
+10. Update `.firebaserc`:
 ```json
 {
   "projects": {
@@ -114,7 +124,7 @@ pnpm install
 }
 ```
 
-8. Login to Firebase locally:
+11. Login to Firebase locally:
 ```bash
 firebase login
 ```
