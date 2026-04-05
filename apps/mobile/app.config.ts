@@ -40,7 +40,7 @@ const config = {
       projectId: "6eededb8-59ad-480b-90b1-1527783cc5bd",
     },
     FIREBASE_API_KEY:
-      process.env.EXPO_PUBLIC_FIREBASE_API_KEY || "AIzaSyAt0Xx-iU21C7TcRDkYtyuwGLUYRY-ljUI",
+      process.env.EXPO_PUBLIC_FIREBASE_API_KEY || "AIzaSyCBAblPosEg7aLa1yjVI7tKX2ibXj77A1w",
     router: {
       origin: false,
     },
