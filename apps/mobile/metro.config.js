@@ -15,10 +15,16 @@ config.resolver.nodeModulesPaths = [
   path.resolve(monorepoRoot, "node_modules"),
 ];
 
-// Explicitly map workspace packages so Metro can resolve them
-// even when pnpm symlinks aren't followed correctly in CI
+// Explicitly map workspace packages and ensure critical modules
+// resolve from the project's own node_modules to prevent duplicates
 config.resolver.extraNodeModules = {
   "@vibeboiler/shared": path.resolve(monorepoRoot, "packages/shared"),
 };
+
+// Block Metro from crawling web app and functions directories
+config.resolver.blockList = [
+  /apps\/web\/.*/,
+  /functions\/.*/,
+];
 
 module.exports = config;

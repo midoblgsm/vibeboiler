@@ -7,6 +7,7 @@
     "start": "expo start",
     "android": "expo start --android",
     "ios": "expo start --ios",
+    "eas-build-pre-install": "echo 'node-linker=hoisted' > ../../.npmrc",
     "lint": "eslint app/ src/",
     "typecheck": "tsc --noEmit",
     "test": "jest",
