@@ -29,7 +29,6 @@ jobs:
 
       - name: Write Google Play service account key
         working-directory: apps/mobile
-        if: ${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT_KEY != '' }}
         run: echo '${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT_KEY }}' > google-play-service-account.json
 
       - name: Build Android
@@ -40,5 +39,4 @@ jobs:
 
       - name: Submit to Play Store
         working-directory: apps/mobile
-        if: ${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT_KEY != '' }}
         run: eas submit --platform android --profile production --latest --non-interactive
