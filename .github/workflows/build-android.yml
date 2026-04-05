@@ -27,18 +27,10 @@ jobs:
           eas-version: latest
           token: ${{ secrets.EXPO_TOKEN }}
 
-      - name: Configure app for build
+      - name: Write Google Play service account key
         working-directory: apps/mobile
-        run: |
-          if [ -n "${{ secrets.EAS_PROJECT_ID }}" ]; then
-            jq --arg pid "${{ secrets.EAS_PROJECT_ID }}" \
-              '.expo.extra.eas.projectId = $pid' \
-              app.json > app.json.tmp && mv app.json.tmp app.json
-          fi
-
-          if [ -n "${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT_KEY }}" ]; then
-            echo '${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT_KEY }}' > google-play-service-account.json
-          fi
+        if: ${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT_KEY != '' }}
+        run: echo '${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT_KEY }}' > google-play-service-account.json
 
       - name: Build Android
         working-directory: apps/mobile
@@ -48,4 +40,5 @@ jobs:
 
       - name: Submit to Play Store
         working-directory: apps/mobile
-        run: eas submit --platform android --profile production --non-interactive
+        if: ${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT_KEY != '' }}
+        run: eas submit --platform android --profile production --latest --non-interactive

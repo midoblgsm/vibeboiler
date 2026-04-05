@@ -27,15 +27,6 @@ jobs:
           eas-version: latest
           token: ${{ secrets.EXPO_TOKEN }}
 
-      - name: Configure app for build
-        working-directory: apps/mobile
-        run: |
-          if [ -n "${{ secrets.EAS_PROJECT_ID }}" ]; then
-            jq --arg pid "${{ secrets.EAS_PROJECT_ID }}" \
-              '.expo.extra.eas.projectId = $pid' \
-              app.json > app.json.tmp && mv app.json.tmp app.json
-          fi
-
       - name: Build iOS
         working-directory: apps/mobile
         run: eas build --platform ios --profile production --non-interactive
@@ -44,7 +35,8 @@ jobs:
 
       - name: Submit to App Store
         working-directory: apps/mobile
-        run: eas submit --platform ios --profile production --non-interactive
+        if: ${{ secrets.APPLE_APP_SPECIFIC_PASSWORD != '' }}
+        run: eas submit --platform ios --profile production --latest --non-interactive
         env:
           EXPO_APPLE_ID: ${{ secrets.APPLE_ID }}
           EXPO_APPLE_APP_SPECIFIC_PASSWORD: ${{ secrets.APPLE_APP_SPECIFIC_PASSWORD }}
