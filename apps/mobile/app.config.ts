@@ -31,7 +31,18 @@ const config = {
     package: "com.craftschoolship.vibeboiler",
     googleServicesFile: "./google-services.json",
   },
-  plugins: ["expo-router", "expo-secure-store"],
+  plugins: [
+    "expo-router",
+    "expo-secure-store",
+    [
+      "expo-build-properties",
+      {
+        android: {
+          kotlinVersion: "1.9.25",
+        },
+      },
+    ],
+  ],
   experiments: {
     typedRoutes: true,
   },
