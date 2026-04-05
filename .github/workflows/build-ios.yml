@@ -44,7 +44,8 @@ jobs:
 
       - name: Submit to App Store
         working-directory: apps/mobile
-        run: eas submit --platform ios --profile production --non-interactive
+        if: ${{ secrets.APPLE_APP_SPECIFIC_PASSWORD != '' }}
+        run: eas submit --platform ios --profile production --latest --non-interactive
         env:
           EXPO_APPLE_ID: ${{ secrets.APPLE_ID }}
           EXPO_APPLE_APP_SPECIFIC_PASSWORD: ${{ secrets.APPLE_APP_SPECIFIC_PASSWORD }}
