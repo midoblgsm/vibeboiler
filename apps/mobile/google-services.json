@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "809468633119",
+    "project_id": "vibeboilerplate",
+    "storage_bucket": "vibeboilerplate.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:809468633119:android:cee2f018e11422e92bf52a",
+        "android_client_info": {
+          "package_name": "com.craftschoolship.vibeboiler"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBpXY6__0cJbxkCUcgGZDSvGAW7Vtzmx-A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
