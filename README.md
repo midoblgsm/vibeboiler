@@ -444,17 +444,39 @@ Each workflow is independent so that:
 | `NEON_DATABASE_URL` | Functions | Neon Postgres connection string |
 | `GOOGLE_APPLICATION_CREDENTIALS` | Functions (local) | Path to Firebase service account JSON |
 
-## Roadmap
+## Setup via CLI (`@vibeboiler/cli`)
 
-- [ ] **CLI Setup Wizard** (`npx vibeboiler init`) — Automate project bootstrapping:
-  - Create Firebase project + enable services (Auth, Firestore, Storage) via `firebase`/`gcloud` CLI
-  - Create Neon DB and retrieve connection URL via Neon API
-  - Create GitHub repo from template via `gh` CLI
-  - Create Expo project via `eas init`
-  - Generate service account keys via `gcloud` CLI
-  - Store all secrets in GitHub via `gh secret set`
-  - Register App ID in Apple Developer via App Store Connect API
-  - Print checklist for remaining manual steps (Play Console app creation, service account invitation, first AAB upload, first local EAS builds)
+The repository ships with an interactive setup wizard in `packages/cli` that
+automates the bulk of the manual steps above. Run it from a fresh clone:
+
+```bash
+pnpm install
+pnpm --filter @vibeboiler/cli build
+node packages/cli/dist/index.js init
+# or, after publishing: npx vibeboiler init
+```
+
+The wizard will:
+
+- Create the GCP / Firebase project, enable the required services, create
+  the default Firestore database, and register web + iOS + Android apps.
+- Create a GitHub Actions deployer service account, grant deploy roles, and
+  generate the service account key.
+- Create (or reuse) a Neon Postgres project and fetch the pooled connection URI.
+- Create (or reuse) an EAS project for the mobile app.
+- Register the iOS Bundle ID in Apple Developer via App Store Connect.
+- Write `.firebaserc`, `.env`, update `apps/mobile/app.config.ts` and
+  `apps/mobile/eas.json`, and stash the service account key under
+  `.vibeboiler/service-account.json` (gitignored).
+- Create a new GitHub repo from this template (optional) and push all 17 of
+  the required GitHub Actions secrets using libsodium sealed-box encryption.
+- Print a checklist of remaining manual steps (Play Console app creation,
+  first local EAS build, TestFlight submission, teammate invites).
+
+All state is persisted to `.vibeboiler/state.json` so re-runs are idempotent.
+Tokens are held in memory only and never written to disk. Subcommands
+(`vibeboiler firebase|neon|github|expo|apple|secrets|files|doctor`) let you
+replay any stage in isolation. See `packages/cli/README.md` for more.
 
 ## License
 

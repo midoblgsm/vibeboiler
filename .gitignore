@@ -43,3 +43,6 @@ playwright-report/
 *.log
 npm-debug.log*
 pnpm-debug.log*
+
+# Vibeboiler CLI state
+.vibeboiler/
