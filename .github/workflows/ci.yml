@@ -135,6 +135,29 @@ jobs:
           key: node-modules-v2-${{ hashFiles('pnpm-lock.yaml') }}
       - run: pnpm --filter @vibeboiler/functions test
 
+  test-cli:
+    name: Unit Tests - CLI
+    needs: install
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - uses: actions/cache/restore@v4
+        with:
+          path: |
+            node_modules
+            apps/*/node_modules
+            packages/*/node_modules
+            functions/node_modules
+          key: node-modules-v2-${{ hashFiles('pnpm-lock.yaml') }}
+      - run: pnpm --filter @vibeboiler/cli test
+      - run: pnpm --filter @vibeboiler/cli typecheck
+      - run: pnpm --filter @vibeboiler/cli build
+
   test-mobile:
     name: Unit Tests - Mobile
     needs: install
